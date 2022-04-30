@@ -1,35 +1,23 @@
 #!/bin/bash
 
-backup_files="/etc"
+backup_dir=$1
 
-low_level_dir_name="hourly"
+destination_dir=$2
 
-if [[ $1 == "-daily" ]]
-then
-	low_level_dir_name="daily"
-fi
+archive_file_name="$(hostname)-$(date +"%Y-%m-%dT%H:%M:%S%:z").tar.gz"
 
-dest="${BACKUP_HOME:-"/srv/backups"}/${low_level_dir_name}"
-
-archive_file_name="$(hostname)-$(date +%F_%T).tar.gz"
-
-echo "backing up files to $dest/$archive_file_name"
-date
+echo "backing up $backup_dir to $destination_dir/$archive_file_name"
 echo
 
-if [ ! -d "$dest" ]
+if [ ! -d "$destination_dir" ]
 then
 	echo "destination directory not found. creating it now"
-	mkdir -p $dest
+	mkdir -p $destination_dir
 	echo
 fi
 
 # archive files using tar
-tar czf $dest/$archive_file_name $backup_files
+tar czf $destination_dir/$archive_file_name $backup_dir
 
 echo
 echo "backup finished"
-date
-
-#ls -lh $dest
-

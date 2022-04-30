@@ -1,3 +1,6 @@
 #!/bin/bash
 
-rsync -ar ${BACKUP_HOME:-"/srv/backups"} osboxes@10.0.2.4:~/
+folder_to_copy=$1
+remote_host_path=$2
+
+rsync -ar $folder_to_copy $remote_host_path
